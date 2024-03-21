@@ -72,13 +72,13 @@ public class GameOverPanel extends JPanel {
         this.gameResult = result;
     }
 
-    public void correctGuessUI(GameResult result) {
-        answerTxt.setText("The answer was " + result.correctValue + ".");
-        if(result.numGuesses == 1){
-            numGuessesTxt.setText((result.humanWasPlaying ? "You" : "I") + " guessed it on the first try!");
+    public void correctGuessUI() {
+        answerTxt.setText("The answer was " + this.gameResult.correctValue + ".");
+        if(this.gameResult.numGuesses == 1){
+            numGuessesTxt.setText((this.gameResult.humanWasPlaying ? "You" : "I") + " guessed it on the first try!");
         }
         else {
-            numGuessesTxt.setText("It took " + (result.humanWasPlaying ? "you" : "me") + " " + result.numGuesses + " guesses.");
+            numGuessesTxt.setText("It took " + (this.gameResult.humanWasPlaying ? "you" : "me") + " " + this.gameResult.numGuesses + " guesses.");
         }
     }
 
