@@ -68,10 +68,11 @@ public class GameOverPanel extends JPanel {
     /**
      * Sets the game results, updates the UI, and saves results to the log file (if human was playing)
      */
-    // TODO: refactor this method
     public void setGameResults(GameResult result){
         this.gameResult = result;
+    }
 
+    public void correctGuessUI(GameResult result) {
         answerTxt.setText("The answer was " + result.correctValue + ".");
         if(result.numGuesses == 1){
             numGuessesTxt.setText((result.humanWasPlaying ? "You" : "I") + " guessed it on the first try!");
@@ -79,12 +80,15 @@ public class GameOverPanel extends JPanel {
         else {
             numGuessesTxt.setText("It took " + (result.humanWasPlaying ? "you" : "me") + " " + result.numGuesses + " guesses.");
         }
+    }
 
-        if(result.humanWasPlaying){
+    // TODO: going to need injection to test
+    public void writeResultToFile(GameResult result) {
+        if(result.humanWasPlaying) {
             // write stats to file
-            try(CSVWriter writer = new CSVWriter(new FileWriter(StatsFile.FILENAME, true))) {
+            try (CSVWriter writer = new CSVWriter(new FileWriter(StatsFile.FILENAME, true))) {
 
-                String [] record = new String[2];
+                String[] record = new String[2];
                 record[0] = LocalDateTime.now().toString();
                 record[1] = Integer.toString(result.numGuesses);
 
@@ -95,4 +99,5 @@ public class GameOverPanel extends JPanel {
             }
         }
     }
+
 }
