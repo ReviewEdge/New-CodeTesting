@@ -47,7 +47,7 @@ public class GameOverPanel extends JPanel {
         restart.addActionListener(e -> {
             // See itemStateChanged in https://docs.oracle.com/javase/tutorial/uiswing/examples/layout/CardLayoutDemoProject/src/layout/CardLayoutDemo.java
             CardLayout cardLayout = (CardLayout) cardsPanel.getLayout();
-            String screenName = (gameResult == null || gameResult.humanWasPlaying ?
+            String screenName = (gameResult == null || gameResult.humanWasPlaying() ?
                     ScreenID.HUMAN_PLAY.name() : ScreenID.COMPUTER_PLAY_LAUNCH.name());
             cardLayout.show(cardsPanel, screenName);
         });
@@ -73,24 +73,24 @@ public class GameOverPanel extends JPanel {
     }
 
     public void correctGuessUI() {
-        answerTxt.setText("The answer was " + this.gameResult.correctValue + ".");
-        if(this.gameResult.numGuesses == 1){
-            numGuessesTxt.setText((this.gameResult.humanWasPlaying ? "You" : "I") + " guessed it on the first try!");
+        answerTxt.setText("The answer was " + this.gameResult.correctValue() + ".");
+        if(this.gameResult.numGuesses() == 1){
+            numGuessesTxt.setText((this.gameResult.humanWasPlaying() ? "You" : "I") + " guessed it on the first try!");
         }
         else {
-            numGuessesTxt.setText("It took " + (this.gameResult.humanWasPlaying ? "you" : "me") + " " + this.gameResult.numGuesses + " guesses.");
+            numGuessesTxt.setText("It took " + (this.gameResult.humanWasPlaying() ? "you" : "me") + " " + this.gameResult.numGuesses() + " guesses.");
         }
     }
 
     // TODO: going to need injection to test
     public void writeResultToFile(GameResult result) {
-        if(result.humanWasPlaying) {
+        if(result.humanWasPlaying()) {
             // write stats to file
             try (CSVWriter writer = new CSVWriter(new FileWriter(StatsFile.FILENAME, true))) {
 
                 String[] record = new String[2];
                 record[0] = LocalDateTime.now().toString();
-                record[1] = Integer.toString(result.numGuesses);
+                record[1] = Integer.toString(result.numGuesses());
 
                 writer.writeNext(record);
             } catch (IOException e) {
