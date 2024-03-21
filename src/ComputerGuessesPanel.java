@@ -11,6 +11,8 @@ import java.util.function.Consumer;
  * TODO: refactor this class
  */
 public class ComputerGuessesPanel extends JPanel {
+    private static final int UPPER_BOUND = 1000;
+    private static final int LOWER_BOUND = 1;
 
     private int numGuesses;
     private int lastGuess;
@@ -23,14 +25,14 @@ public class ComputerGuessesPanel extends JPanel {
     private JLabel guessMessage;
 
     public ComputerGuessesPanel(JPanel cardsPanel, Consumer<GameResult> gameFinishedCallback){
-        numGuesses = 0;
-        upperBound = 1000;
-        lowerBound = 1;
+        newGame();
+        buildUI(cardsPanel, gameFinishedCallback);
+    }
 
+    private void buildUI(JPanel cardsPanel, Consumer<GameResult> gameFinishedCallback) {
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
         guessMessage = new JLabel("I guess ___.");
-//        JLabel guessMessage = new JLabel("I guess ___.");
         guessMessage.setAlignmentX(Component.LEFT_ALIGNMENT);
         this.add(guessMessage);
         guessMessage.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -64,16 +66,10 @@ public class ComputerGuessesPanel extends JPanel {
         });
         this.add(higherBtn);
         higherBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-
         this.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent e) {
-                numGuesses = 0;
-                upperBound = 1000;
-                lowerBound = 1;
-
-                lastGuess = (lowerBound + upperBound + 1) / 2;
-                guessMessage.setText("I guess " + lastGuess + ".");
+                newGame();
+                newGuess();
             }
         });
     }
@@ -103,6 +99,12 @@ public class ComputerGuessesPanel extends JPanel {
 
         CardLayout cardLayout = (CardLayout) cardsPanel.getLayout();
         cardLayout.show(cardsPanel, ScreenID.GAME_OVER.name());
+    }
+
+    private void newGame() {
+        numGuesses = 0;
+        upperBound = UPPER_BOUND;
+        lowerBound = LOWER_BOUND;
     }
 
 }
