@@ -6,5 +6,7 @@ class GuessTheNumberUITest {
 
     @Test
     void main() {
+        // does main crash?
+        GuessTheNumberUI.main();
     }
 }
