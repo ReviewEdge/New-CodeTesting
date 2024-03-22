@@ -38,6 +38,7 @@ public class ComputerGuessesPanel extends JPanel {
         JButton lowerBtn = new JButton("Lower");
         lowerBtn.addActionListener(e -> {
             game.handleGuessResponse(false);
+            newGuessUI();
         });
         this.add(lowerBtn);
         lowerBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -54,14 +55,14 @@ public class ComputerGuessesPanel extends JPanel {
         JButton higherBtn = new JButton("Higher");
         higherBtn.addActionListener(e -> {
             game.handleGuessResponse(true);
+            newGuessUI();
         });
         this.add(higherBtn);
         higherBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent e) {
                 game = new ComputerGuessesGame();
-                int lastGuess = game.newGuess();
-                guessMessage.setText("I guess " + lastGuess + ".");
+                newGuessUI();
             }
         });
     }
@@ -77,6 +78,10 @@ public class ComputerGuessesPanel extends JPanel {
         cardLayout.show(cardsPanel, ScreenID.GAME_OVER.name());
     }
 
+    private void newGuessUI() {
+        int lastGuess = game.newGuess();
+        guessMessage.setText("I guess " + lastGuess + ".");
+    }
 
 
 }

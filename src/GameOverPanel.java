@@ -68,10 +68,9 @@ public class GameOverPanel extends JPanel {
     /**
      * Sets the game results, updates the UI, and saves results to the log file (if human was playing)
      */
-    public void handleGameOver(GameResult result){
+    public void setGameResults(GameResult result){
         this.gameResult = result;
         correctGuessUI();
-        logData();
     }
 
     public void correctGuessUI() {

@@ -26,7 +26,6 @@ public class ComputerGuessesGame {
         } else {
             upperBound = Math.min(upperBound, lastGuess);
         }
-        newGuess();
     }
 
     public int newGuess() {
