@@ -27,7 +27,7 @@ public class StatsFile extends GameStats {
         fillMap(limit);
     }
 
-      private void fillMap ( LocalDateTime limit ) {
+      protected void fillMap ( LocalDateTime limit ) {
         try (CSVReader csvReader = csvScanner(FILENAME)) {
             String[] values = null;
             while ((values = csvReader.readNext()) != null) {
