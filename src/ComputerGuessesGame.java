@@ -1,8 +1,24 @@
 public class ComputerGuessesGame {
     private static final int UPPER_BOUND = 1000;
     private static final int LOWER_BOUND = 1;
-
     private int numGuesses;
+
+    public int getNumGuesses() {
+        return numGuesses;
+    }
+
+    public int getLastGuess() {
+        return lastGuess;
+    }
+
+    public int getUpperBound() {
+        return upperBound;
+    }
+
+    public int getLowerBound() {
+        return lowerBound;
+    }
+
     private int lastGuess;
 
     // upperBound and lowerBound track the computer's knowledge about the correct number
