@@ -5,7 +5,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class HumanGuessesGameTest {
 
     @Test
-    void constructor() {
+    void constructor1() {
+        HumanGuessesGame game = new HumanGuessesGame();
+        assertInstanceOf(HumanGuessesGame.class, game);
+    }
+    @Test
+    void constructor2() {
         HumanGuessesGame game = new HumanGuessesGame(500);
         assertInstanceOf(HumanGuessesGame.class, game);
     }

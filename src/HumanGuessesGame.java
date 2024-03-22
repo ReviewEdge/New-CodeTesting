@@ -13,7 +13,6 @@ public class HumanGuessesGame {
     private int numGuesses;
     private boolean gameIsDone; // true iff makeGuess has been called with the target value
 
-    //TODO: will need dependency injection stuff
     HumanGuessesGame(){
         this.target = getRandomTarget();
 
@@ -21,13 +20,13 @@ public class HumanGuessesGame {
         gameIsDone = false;
     }
 
+    // allows for target injection
     HumanGuessesGame(int target){
         this.target = target;
 
         numGuesses = 0;
         gameIsDone = false;
     }
-
 
     private int getRandomTarget() {
         Random randGen = new Random();
