@@ -8,7 +8,6 @@ import java.util.function.Consumer;
  * Displays the computer's guesses and processes human's answers
  * Tracks the computer's guesses
  *
- * TODO: refactor this class
  */
 public class ComputerGuessesPanel extends JPanel {
     private ComputerGuessesGame game;
