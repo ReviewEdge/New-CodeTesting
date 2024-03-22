@@ -15,11 +15,23 @@ public class HumanGuessesGame {
 
     //TODO: will need dependency injection stuff
     HumanGuessesGame(){
-        Random randGen = new Random();
-        this.target = randGen.nextInt(UPPER_BOUND) + 1;
+        this.target = getRandomTarget();
 
         numGuesses = 0;
         gameIsDone = false;
+    }
+
+    HumanGuessesGame(int target){
+        this.target = target;
+
+        numGuesses = 0;
+        gameIsDone = false;
+    }
+
+
+    private int getRandomTarget() {
+        Random randGen = new Random();
+        return randGen.nextInt(UPPER_BOUND) + 1;
     }
 
     GuessResult makeGuess(int value){
