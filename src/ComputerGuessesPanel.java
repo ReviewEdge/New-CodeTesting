@@ -11,21 +11,12 @@ import java.util.function.Consumer;
  * TODO: refactor this class
  */
 public class ComputerGuessesPanel extends JPanel {
-    private static final int UPPER_BOUND = 1000;
-    private static final int LOWER_BOUND = 1;
-
-    private int numGuesses;
-    private int lastGuess;
-
-    // upperBound and lowerBound track the computer's knowledge about the correct number
-    // They are updated after each guess is made
-    private int upperBound; // correct number is <= upperBound
-    private int lowerBound; // correct number is >= lowerBound
+    private ComputerGuessesGame game;
 
     private JLabel guessMessage;
 
     public ComputerGuessesPanel(JPanel cardsPanel, Consumer<GameResult> gameFinishedCallback){
-        newGame();
+        game = new ComputerGuessesGame();
         buildUI(cardsPanel, gameFinishedCallback);
     }
 
@@ -46,7 +37,7 @@ public class ComputerGuessesPanel extends JPanel {
 
         JButton lowerBtn = new JButton("Lower");
         lowerBtn.addActionListener(e -> {
-            handleGuessResponse(false);
+            game.handleGuessResponse(false);
         });
         this.add(lowerBtn);
         lowerBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -62,49 +53,30 @@ public class ComputerGuessesPanel extends JPanel {
 
         JButton higherBtn = new JButton("Higher");
         higherBtn.addActionListener(e -> {
-            handleGuessResponse(true);
+            game.handleGuessResponse(true);
         });
         this.add(higherBtn);
         higherBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent e) {
-                newGame();
-                newGuess();
+                game = new ComputerGuessesGame();
+                int lastGuess = game.newGuess();
+                guessMessage.setText("I guess " + lastGuess + ".");
             }
         });
-    }
-
-
-    private void handleGuessResponse(boolean isHigh) {
-        if (isHigh) {
-            lowerBound = Math.max(lowerBound, lastGuess + 1);
-        } else {
-            upperBound = Math.min(upperBound, lastGuess);
-        }
-        newGuess();
-    }
-
-    private void newGuess() {
-        lastGuess = (lowerBound + upperBound + 1) / 2;
-        numGuesses += 1;
-        guessMessage.setText("I guess " + lastGuess + ".");
     }
 
     private void win(JPanel cardsPanel, Consumer<GameResult> gameFinishedCallback) {
         guessMessage.setText("I guess ___.");
 
         // Send the result of the finished game to the callback
-        GameResult result = new GameResult(false, lastGuess, numGuesses);
+        GameResult result = game.getGameResult();
         gameFinishedCallback.accept(result);
 
         CardLayout cardLayout = (CardLayout) cardsPanel.getLayout();
         cardLayout.show(cardsPanel, ScreenID.GAME_OVER.name());
     }
 
-    private void newGame() {
-        numGuesses = 0;
-        upperBound = UPPER_BOUND;
-        lowerBound = LOWER_BOUND;
-    }
+
 
 }
